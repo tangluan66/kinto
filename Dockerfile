@@ -5,7 +5,7 @@ RUN git clone --progress https://github.com/v2fly/v2ray-core.git . && \
     bash ./release/user-package.sh nosource noconf codename=$(git describe --tags) buildname=docker-fly abpathtgz=/tmp/v2ray.tgz
 
 FROM alpine
-ENV CONFIG=https://github.com/tangluan/kinto/blob/master/config.json
+ENV CONFIG=https://raw.githubusercontent.com/tangluan/kinto/master/config.json
 COPY --from=builder /tmp/v2ray.tgz /tmp
 RUN apk update && apk add --no-cache tor ca-certificates && \
     tar xvfz /tmp/v2ray.tgz -C /usr/bin && \
@@ -13,3 +13,4 @@ RUN apk update && apk add --no-cache tor ca-certificates && \
     
 CMD nohup tor & \
     v2ray -config $CONFIG
+
